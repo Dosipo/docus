@@ -1,6 +1,13 @@
+// GitHub Pages serves the site under a base path (/<repo>/), which some modules don't support
+const githubPages = process.env.GITHUB_PAGES === 'true'
+
 export default defineNuxtConfig({
   extends: ['docus'],
   modules: ['@nuxtjs/i18n', 'nuxt-studio'],
+  ...(githubPages && {
+    robots: { robotsTxt: false },
+    $production: { studio: false },
+  }),
   site: {
     name: 'Docus',
   },
@@ -16,12 +23,15 @@ export default defineNuxtConfig({
     },
   },
   agentDiscovery: {
+    // Must be a bare origin, while site.url carries the /<repo> base path
+    ...(githubPages && { siteUrl: new URL(process.env.NUXT_SITE_URL!).origin }),
     excludePrefixes: {
       // Nuxt Studio, a Vue page tree with no markdown twin
       extend: ['/admin'],
     },
   },
   i18n: {
+    ...(githubPages && { baseUrl: process.env.NUXT_SITE_URL }),
     defaultLocale: 'en',
     locales: [{
       code: 'en',

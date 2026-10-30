@@ -248,7 +248,6 @@ This action cannot be undone.
     ---
     spotlight: true
     class: col-span-2 lg:col-span-1
-    target: _blank
     to: /en/concepts/internationalization
     ---
       :::::u-color-mode-image
@@ -273,7 +272,6 @@ This action cannot be undone.
     ---
     spotlight: true
     class: col-span-2
-    target: _blank
     to: /en/ai/mcp
     ---
       :::::u-color-mode-image

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ContentNavigationItem, PageCollections } from '@nuxt/content'
+import { withBase } from 'ufo'
 import { uiLocales } from '#build/docus/ui-locales.mjs'
 import { getLocaleKey } from '../utils/locale'
 import { transformNavigation } from './utils/navigation'
@@ -18,7 +19,8 @@ const nuxtUiLocale = computed(() => uiLocales[getLocaleKey(locale.value)] || (nu
 const lang = computed(() => nuxtUiLocale.value.code)
 const dir = computed(() => nuxtUiLocale.value.dir)
 const collectionName = computed(() => isEnabled.value ? `docs_${getLocaleKey(locale.value)}` : 'docs')
-const favicon = computed(() => appConfig.header?.logo?.favicon || '/favicon.ico')
+const appBaseURL = useRuntimeConfig().app.baseURL
+const favicon = computed(() => withBase(appConfig.header?.logo?.favicon || '/favicon.ico', appBaseURL))
 
 useHead({
   meta: [

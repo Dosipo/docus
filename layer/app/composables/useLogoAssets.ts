@@ -1,4 +1,5 @@
 import type { ContextMenuItem } from '@nuxt/ui'
+import { withBase } from 'ufo'
 
 function isSvgUrl(url: string): boolean {
   return url.toLowerCase().endsWith('.svg')
@@ -68,6 +69,9 @@ export const useLogoAssets = () => {
   const colorMode = useColorMode() as { value: string, forced?: boolean }
   const toast = useToast()
   const { t } = useDocusI18n()
+  const appBaseURL = useRuntimeConfig().app.baseURL
+  // Logo paths in app.config are root-relative, prefix them so they resolve under a base URL
+  const withAppBase = (url: string) => url ? withBase(url, appBaseURL) : ''
 
   const hasLogo = computed(() => !!(appConfig.header?.logo?.light || appConfig.header?.logo?.dark))
 
@@ -76,8 +80,8 @@ export const useLogoAssets = () => {
   const currentLogoUrl = computed(() => {
     const logo = appConfig.header?.logo
     if (!logo) return ''
-    if (colorMode.value === 'dark') return logo.dark || logo.light || ''
-    return logo.light || logo.dark || ''
+    if (colorMode.value === 'dark') return withAppBase(logo.dark || logo.light || '')
+    return withAppBase(logo.light || logo.dark || '')
   })
 
   const hasWordmark = computed(() => {
@@ -88,29 +92,29 @@ export const useLogoAssets = () => {
   const currentWordmarkUrl = computed(() => {
     const wm = appConfig.header?.logo?.wordmark
     if (!wm) return ''
-    if (colorMode.value === 'dark') return wm.dark || wm.light || ''
-    return wm.light || wm.dark || ''
+    if (colorMode.value === 'dark') return withAppBase(wm.dark || wm.light || '')
+    return withAppBase(wm.light || wm.dark || '')
   })
 
   const headerLightUrl = computed(() => {
     const logo = appConfig.header?.logo
     if (!logo) return ''
     if (displayMode.value === 'wordmark' && hasWordmark.value) {
-      return logo.wordmark?.light || logo.wordmark?.dark || logo.light || logo.dark || ''
+      return withAppBase(logo.wordmark?.light || logo.wordmark?.dark || logo.light || logo.dark || '')
     }
-    return logo.light || logo.dark || ''
+    return withAppBase(logo.light || logo.dark || '')
   })
 
   const headerDarkUrl = computed(() => {
     const logo = appConfig.header?.logo
     if (!logo) return ''
     if (displayMode.value === 'wordmark' && hasWordmark.value) {
-      return logo.wordmark?.dark || logo.wordmark?.light || logo.dark || logo.light || ''
+      return withAppBase(logo.wordmark?.dark || logo.wordmark?.light || logo.dark || logo.light || '')
     }
-    return logo.dark || logo.light || ''
+    return withAppBase(logo.dark || logo.light || '')
   })
 
-  const faviconUrl = computed(() => appConfig.header?.logo?.favicon || '/favicon.ico')
+  const faviconUrl = computed(() => withAppBase(appConfig.header?.logo?.favicon || '/favicon.ico'))
 
   const logoAlt = computed(() => appConfig.header?.logo?.alt || appConfig.header?.title || '')
 

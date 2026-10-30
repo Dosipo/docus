@@ -248,7 +248,6 @@ Cette action est irréversible.
     ---
     spotlight: true
     class: col-span-2 lg:col-span-1
-    target: _blank
     to: /fr/concepts/internationalization
     ---
       :::::u-color-mode-image
@@ -273,7 +272,6 @@ Cette action est irréversible.
     ---
     spotlight: true
     class: col-span-2
-    target: _blank
     to: /fr/ai/mcp
     ---
       :::::u-color-mode-image
