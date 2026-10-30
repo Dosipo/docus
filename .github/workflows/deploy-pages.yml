@@ -29,6 +29,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # Docs build resolves the layer's generated tsconfig
+      - run: pnpm exec nuxt prepare layer
+
       - name: Generate static site
         run: pnpm exec nuxt generate docs --extends ../layer
         env:
