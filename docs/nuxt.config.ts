@@ -4,6 +4,11 @@ const githubPages = process.env.GITHUB_PAGES === 'true'
 export default defineNuxtConfig({
   extends: ['docus'],
   modules: ['@nuxtjs/i18n', 'nuxt-studio'],
+  docus: {
+    assistant: {
+      enabled: true,
+    },
+  },
   ...(githubPages && {
     robots: { robotsTxt: false },
     $production: { studio: false },
